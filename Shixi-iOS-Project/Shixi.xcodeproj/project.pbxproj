@@ -1,0 +1,337 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		050DDDA9BB6941E09D93F82F /* ShixiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929E80CD4BD54C43B88CF4FC /* ShixiApp.swift */; };
+		A41331DF3B4744AC857F3CB8 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A57DEFB176A47BEAA1AB07D /* Models.swift */; };
+		BFD192201B3E4FAB8EEC6AA1 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80B40593264BC9BDD36922 /* ViewModel.swift */; };
+		9DEBEC08EFB64224A36475F5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51ECC3E987B8431CAD8B5CDC /* ContentView.swift */; };
+		23510B7093604A19AACB35F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18C78A18762F4D2A80100BA0 /* Assets.xcassets */; };
+		222FFD19165043EA8BD83E95 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0772A1BCA7446D2BFE5BC05 /* SwiftUI.framework */; };
+		800BEB222262494ABF2B8097 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5B9C8FFF9004CBBA421F94E /* AVFoundation.framework */; };
+		3FE91566EA9C4F3498260A8C /* PhotosUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 024F716F51CC40238B4B865B /* PhotosUI.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		079AC1F52F464D68A908425D /* Shixi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shixi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		929E80CD4BD54C43B88CF4FC /* ShixiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShixiApp.swift; sourceTree = "<group>"; };
+		5A57DEFB176A47BEAA1AB07D /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		CC80B40593264BC9BDD36922 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		51ECC3E987B8431CAD8B5CDC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		18C78A18762F4D2A80100BA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		49975843D83148FE9C71EBB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C0772A1BCA7446D2BFE5BC05 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		B5B9C8FFF9004CBBA421F94E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		024F716F51CC40238B4B865B /* PhotosUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhotosUI.framework; path = System/Library/Frameworks/PhotosUI.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B90E51FC4BA3478EA7F19A5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				222FFD19165043EA8BD83E95 /* SwiftUI.framework in Frameworks */,
+				800BEB222262494ABF2B8097 /* AVFoundation.framework in Frameworks */,
+				3FE91566EA9C4F3498260A8C /* PhotosUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DC0B19B0309547B9B640F5EE = {
+			isa = PBXGroup;
+			children = (
+				257C089FBEAF4E1EA3C6D166 /* Shixi */,
+				B25057AC05BE403A88A710AD /* Products */,
+				963029ECE4B14E56888B7EF1 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		B25057AC05BE403A88A710AD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				079AC1F52F464D68A908425D /* Shixi.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		257C089FBEAF4E1EA3C6D166 /* Shixi */ = {
+			isa = PBXGroup;
+			children = (
+				929E80CD4BD54C43B88CF4FC /* ShixiApp.swift */,
+				5A57DEFB176A47BEAA1AB07D /* Models.swift */,
+				CC80B40593264BC9BDD36922 /* ViewModel.swift */,
+				51ECC3E987B8431CAD8B5CDC /* ContentView.swift */,
+				18C78A18762F4D2A80100BA0 /* Assets.xcassets */,
+				49975843D83148FE9C71EBB4 /* Info.plist */,
+			);
+			path = Shixi;
+			sourceTree = "<group>";
+		};
+		963029ECE4B14E56888B7EF1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C0772A1BCA7446D2BFE5BC05 /* SwiftUI.framework */,
+				B5B9C8FFF9004CBBA421F94E /* AVFoundation.framework */,
+				024F716F51CC40238B4B865B /* PhotosUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		220E8B5BFEC04FDBAC89E5CE /* Shixi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7442804002FB48B882D8A79B /* Build configuration list for PBXNativeTarget "Shixi" */;
+			buildPhases = (
+				2705FC3C788E48D7B85FE974 /* Sources */,
+				B90E51FC4BA3478EA7F19A5E /* Frameworks */,
+				0560255D039D474184780292 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Shixi;
+			productName = Shixi;
+			productReference = 079AC1F52F464D68A908425D /* Shixi.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BD0EA1AE8C9A4DD796D72131 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 10013CD63C1C40C6BF50B5B0 /* Build configuration list for PBXProject "Shixi" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = DC0B19B0309547B9B640F5EE;
+			productRefGroup = B25057AC05BE403A88A710AD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				220E8B5BFEC04FDBAC89E5CE /* Shixi */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0560255D039D474184780292 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23510B7093604A19AACB35F1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2705FC3C788E48D7B85FE974 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				050DDDA9BB6941E09D93F82F /* ShixiApp.swift in Sources */,
+				A41331DF3B4744AC857F3CB8 /* Models.swift in Sources */,
+				BFD192201B3E4FAB8EEC6AA1 /* ViewModel.swift in Sources */,
+				9DEBEC08EFB64224A36475F5 /* ContentView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CD7B830BAD104AF6925EC0F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1797A23F32ED4256AA9D93D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		D860DB93B5EC4927BA43F3B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Shixi/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shixi.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B9D7B04FD9774C18A62237DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Shixi/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shixi.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		10013CD63C1C40C6BF50B5B0 /* Build configuration list for PBXProject "Shixi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CD7B830BAD104AF6925EC0F4 /* Debug */,
+				1797A23F32ED4256AA9D93D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7442804002FB48B882D8A79B /* Build configuration list for PBXNativeTarget "Shixi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D860DB93B5EC4927BA43F3B7 /* Debug */,
+				B9D7B04FD9774C18A62237DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BD0EA1AE8C9A4DD796D72131 /* Project object */;
+}
