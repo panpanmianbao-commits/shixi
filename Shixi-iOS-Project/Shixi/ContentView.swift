@@ -9,7 +9,7 @@ struct ContentView: View {
     // MARK: 状态变量
     @State private var showThemePicker = true    // 控制主题选择面板的展开/收起
     @State private var showAchievements = false  // 控制成就墙的展开/收起
-    @State private var timeInput = "5min"        // 普通模式下的时间输入框内容
+    // timeInput 已移至 ViewModel，统一通过 vm.timeInput 访问
 
     // MARK: 主布局
     var body: some View {
@@ -132,7 +132,7 @@ struct ContentView: View {
     /// 时间输入框 + 快捷预设按钮（5分/10分/25分）
     var normalInputView: some View {
         HStack(spacing: 8) {
-            TextField("输入时间: 5min / 10min / 30s", text: $timeInput)
+            TextField("输入时间: 5min / 10min / 30s", text: $vm.timeInput)
                 .font(.system(size: 15, design: .serif))
                 .padding(10)
                 .background(Color.white)
@@ -145,7 +145,7 @@ struct ContentView: View {
             HStack(spacing: 6) {
                 ForEach(Array(["5分", "10分", "25分"].enumerated()), id: \.offset) { index, preset in
                     Button {
-                        timeInput = preset.replacingOccurrences(of: "分", with: "min")
+                        vm.timeInput = preset.replacingOccurrences(of: "分", with: "min")
                     } label: {
                         Text(preset)
                             .font(.system(size: 13, design: .serif))

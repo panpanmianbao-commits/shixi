@@ -20,6 +20,7 @@ class ShixiViewModel: ObservableObject {
     @Published var pomoWorkMinutes = 25                  // 专注时长（分钟）
     @Published var pomoBreakMinutes = 5                   // 休息时长（分钟）
     @Published var pomoCycles = 4                        // 循环轮数
+    @Published var timeInput: String = "5min"              // 用户输入的计时时间
     @Published var currentCycle = 0                      // 当前轮次（从0开始）
     @Published var pomoPhase: PomodoroPhase = .work      // 当前阶段
 
@@ -140,8 +141,8 @@ class ShixiViewModel: ObservableObject {
             return
         }
 
-        // 普通模式：默认5分钟（TODO: 应解析 timeInput）
-        let seconds = 5 * 60
+        // 普通模式：解析用户输入的时间
+        let seconds = parseTimeInput(timeInput) ?? 300
         totalSeconds = seconds
         remainingSeconds = seconds
         frameIndex = 0
@@ -389,6 +390,40 @@ class ShixiViewModel: ObservableObject {
     private func saveUsedThemes() {
         UserDefaults.standard.set(Array(usedThemeIDs), forKey: "used_themes")
     }
+
+    // MARK: - 时间输入解析
+
+    /// 支持 "5min", "10m", "30s", "1h" 等格式，返回秒数
+    func parseTimeInput(_ input: String) -> Int? {
+        let trimmed = input.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return nil }
+
+        // 正则匹配：数字 + 可选的单位后缀
+        let pattern = "^([0-9]+)([a-zA-Z]*)$"
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []),
+              let match = regex.firstMatch(in: trimmed, options: [], range: NSRange(location: 0, length: trimmed.utf16.count)) else {
+            return nil
+        }
+
+        let nsString = trimmed as NSString
+        let numberStr = nsString.substring(with: match.range(at: 1))
+        let unitStr = nsString.substring(with: match.range(at: 2)).lowercased()
+
+        guard let number = Int(numberStr), number > 0 else { return nil }
+
+        switch unitStr {
+        case "", "min", "m":      // 分钟（默认）
+            return number * 60
+        case "s", "sec", "secs":  // 秒
+            return number
+        case "h", "hr", "hrs":    // 小时
+            return number * 3600
+        default:
+            return nil
+        }
+    }
+
+    // MARK: - 成就系统
 
     /// 保存成就数据到本地
     private func saveAchievements() {
