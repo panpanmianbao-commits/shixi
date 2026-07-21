@@ -1,6 +1,7 @@
 import SwiftUI
 import AVFoundation
 import Combine
+import UserNotifications
 
 // MARK: - 主视图模型
 /// 管理应用所有业务逻辑：计时器、番茄钟、音乐播放、用户认证、成就系统
@@ -53,9 +54,13 @@ class ShixiViewModel: ObservableObject {
     ]
     @Published var autumnLeaves = 0                       // 红叶收集数量（秋主题专属）
 
+    // MARK: 后台计时支持
+    private var timerEndDate: Date?                        // 计时结束时间点
+    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
+
     // MARK: 私有属性
     private var timerCancellable: AnyCancellable?          // 计时器订阅
-    private var player: AVPlayer?                          // AVPlayer 音频播放器
+    private var player: AVPlayer?                          // AVPlayer 音频播放器（复用）
     private var playerObserver: Any?                       // 播放器观察者
     private var autoSwitchTimer: Timer?                    // 自动切台定时器
 
@@ -120,6 +125,71 @@ class ShixiViewModel: ObservableObject {
         }
     }
 
+    // MARK: - 初始化
+    init() {
+        // 初始化 AVPlayer（复用，避免内存泄漏）
+        let item = AVPlayerItem(url: URL(string: RadioStation.allStations[0].url)!)
+        player = AVPlayer(playerItem: item)
+        player?.volume = Float(volume)
+
+        // 监听播放结束
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(playerDidFinishPlaying),
+            name: .AVPlayerItemDidPlayToEndTime,
+            object: nil
+        )
+
+        // 监听播放失败
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(playerDidFail),
+            name: .AVPlayerItemFailedToPlayToEndTime,
+            object: nil
+        )
+
+        // 请求通知权限
+        requestNotificationPermission()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        timerCancellable?.cancel()
+        if backgroundTask != .invalid {
+            UIApplication.shared.endBackgroundTask(backgroundTask)
+        }
+    }
+
+    // MARK: - 通知权限
+    /// 请求本地通知权限
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("通知权限请求失败: \(error)")
+            }
+        }
+    }
+
+    /// 发送计时完成通知
+    private func sendTimerNotification(title: String, body: String) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = body
+        content.sound = .default
+
+        let request = UNNotificationRequest(
+            identifier: "shixi-timer-\(UUID().uuidString)",
+            content: content,
+            trigger: nil // 立即发送
+        )
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("通知发送失败: \(error)")
+            }
+        }
+    }
+
     // MARK: - 计时器控制
 
     /// 切换播放/暂停/继续状态
@@ -152,6 +222,12 @@ class ShixiViewModel: ObservableObject {
         usedThemeIDs.insert(currentTheme.id)
         saveUsedThemes()
 
+        // 记录结束时间点，支持后台计时
+        timerEndDate = Date().addingTimeInterval(TimeInterval(seconds))
+
+        // 注册后台任务
+        registerBackgroundTask()
+
         startTicking()
         playMusic()
     }
@@ -169,6 +245,12 @@ class ShixiViewModel: ObservableObject {
         isPaused = false
         showDoneMessage = false
 
+        // 记录结束时间点
+        timerEndDate = Date().addingTimeInterval(TimeInterval(totalSeconds))
+
+        // 注册后台任务
+        registerBackgroundTask()
+
         startTicking()
         playMusic()
     }
@@ -177,12 +259,19 @@ class ShixiViewModel: ObservableObject {
     func pauseTimer() {
         isPaused = true
         timerCancellable?.cancel()
+        timerEndDate = nil
         pauseMusic()
+        endBackgroundTask()
     }
 
     /// 恢复计时
     func resumeTimer() {
         isPaused = false
+        // 重新计算结束时间
+        if remainingSeconds > 0 {
+            timerEndDate = Date().addingTimeInterval(TimeInterval(remainingSeconds))
+            registerBackgroundTask()
+        }
         startTicking()
         playMusic()
     }
@@ -193,13 +282,31 @@ class ShixiViewModel: ObservableObject {
         isRunning = false
         isPaused = false
         showDoneMessage = false
+        timerEndDate = nil
         pauseMusic()
+        endBackgroundTask()
     }
 
     /// 重置番茄钟到初始状态
     func resetPomodoro() {
         currentCycle = 0
         pomoPhase = .work
+    }
+
+    /// 注册后台任务，确保计时器在后台继续运行
+    private func registerBackgroundTask() {
+        endBackgroundTask()
+        backgroundTask = UIApplication.shared.beginBackgroundTask(withName: "ShixiTimer") { [weak self] in
+            self?.endBackgroundTask()
+        }
+    }
+
+    /// 结束后台任务
+    private func endBackgroundTask() {
+        if backgroundTask != .invalid {
+            UIApplication.shared.endBackgroundTask(backgroundTask)
+            backgroundTask = .invalid
+        }
     }
 
     /// 启动每秒定时器
@@ -213,8 +320,21 @@ class ShixiViewModel: ObservableObject {
 
     /// 每秒 tick：减少剩余时间，切换动画帧
     private func tick() {
-        remainingSeconds -= 1
-        frameIndex += 1
+        // 使用 Date 差值计算，支持后台存活
+        if let endDate = timerEndDate {
+            let remaining = Int(endDate.timeIntervalSinceNow)
+            if remaining != remainingSeconds && remaining >= 0 {
+                remainingSeconds = remaining
+                frameIndex += 1
+            } else if remaining <= 0 {
+                remainingSeconds = 0
+                completePhase()
+                return
+            }
+        } else {
+            remainingSeconds -= 1
+            frameIndex += 1
+        }
 
         if remainingSeconds <= 0 {
             completePhase()
@@ -224,22 +344,42 @@ class ShixiViewModel: ObservableObject {
     /// 当前阶段完成处理
     private func completePhase() {
         timerCancellable?.cancel()
+        endBackgroundTask()
 
         if timerMode == .pomodoro {
             // 番茄钟：专注→休息→专注 循环
             if pomoPhase == .work {
                 currentCycle += 1
                 checkAchievements()
+
+                // 发送专注完成通知
+                sendTimerNotification(
+                    title: "专注完成！",
+                    body: "第 \(currentCycle)/\(pomoCycles) 轮专注结束，休息一下吧~"
+                )
+
                 if currentCycle >= pomoCycles {
                     doneMessage = "恭喜！全部 \(pomoCycles) 轮番茄钟已完成！"
                     showDoneMessage = true
                     isRunning = false
                     pauseMusic()
+
+                    // 发送全部完成通知
+                    sendTimerNotification(
+                        title: "🎉 番茄钟全部完成！",
+                        body: "恭喜完成全部 \(pomoCycles) 轮番茄钟！"
+                    )
                     return
                 }
                 pomoPhase = .rest
             } else {
                 pomoPhase = .work
+
+                // 发送休息完成通知
+                sendTimerNotification(
+                    title: "休息结束",
+                    body: "准备开始第 \(currentCycle + 1) 轮专注~"
+                )
             }
             // 2秒后自动开始下一阶段
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
@@ -252,6 +392,13 @@ class ShixiViewModel: ObservableObject {
             showDoneMessage = true
             pauseMusic()
             checkAchievements()
+
+            // 发送计时完成通知
+            sendTimerNotification(
+                title: "⏰ 计时完成！",
+                body: currentTheme.doneMessage
+            )
+
             // 秋主题计时超过25分钟收集一片红叶
             if currentTheme.id == "autumn" && totalSeconds >= 1500 {
                 autumnLeaves += 1
@@ -261,27 +408,23 @@ class ShixiViewModel: ObservableObject {
 
     // MARK: - 音乐控制
 
-    /// 开始播放当前电台
+    /// 开始播放当前电台（复用 player，避免内存泄漏）
     func playMusic() {
-        guard player == nil else {
-            player?.play()
-            isMusicPlaying = true
-            musicStatus = "正在播放: \(currentStation.name)"
+        guard let player = player else { return }
+
+        let stationURL = URL(string: currentStation.url)
+        guard let url = stationURL else {
+            musicStatus = "电台地址无效"
             return
         }
-        let item = AVPlayerItem(url: URL(string: currentStation.url)!)
-        player = AVPlayer(playerItem: item)
-        player?.volume = Float(volume)
-        player?.play()
+
+        // 复用同一个 player，只替换 currentItem
+        let newItem = AVPlayerItem(url: url)
+        player.replaceCurrentItem(with: newItem)
+        player.volume = Float(volume)
+        player.play()
         isMusicPlaying = true
         musicStatus = "正在播放: \(currentStation.name)"
-
-        // 监听播放结束，自动切台
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: item, queue: .main) { [weak self] _ in
-            if self?.autoSwitch == true {
-                self?.nextStation()
-            }
-        }
     }
 
     /// 暂停音乐
@@ -303,21 +446,49 @@ class ShixiViewModel: ObservableObject {
     /// 切换到下一电台
     func nextStation() {
         currentStationIndex = (currentStationIndex + 1) % RadioStation.allStations.count
-        player?.replaceCurrentItem(with: AVPlayerItem(url: URL(string: currentStation.url)!))
-        if isMusicPlaying { player?.play() }
+        if isMusicPlaying {
+            playMusic() // 复用 player 切换
+        } else {
+            // 预加载但不播放
+            let url = URL(string: currentStation.url)
+            if let url = url {
+                let newItem = AVPlayerItem(url: url)
+                player?.replaceCurrentItem(with: newItem)
+            }
+        }
     }
 
     /// 切换到上一电台
     func prevStation() {
         currentStationIndex = (currentStationIndex - 1 + RadioStation.allStations.count) % RadioStation.allStations.count
-        player?.replaceCurrentItem(with: AVPlayerItem(url: URL(string: currentStation.url)!))
-        if isMusicPlaying { player?.play() }
+        if isMusicPlaying {
+            playMusic() // 复用 player 切换
+        } else {
+            let url = URL(string: currentStation.url)
+            if let url = url {
+                let newItem = AVPlayerItem(url: url)
+                player?.replaceCurrentItem(with: newItem)
+            }
+        }
     }
 
     /// 设置音量
     func setVolume(_ value: Double) {
         volume = value
         player?.volume = Float(value)
+    }
+
+    /// 播放结束回调（自动切台）
+    @objc private func playerDidFinishPlaying() {
+        if autoSwitch {
+            nextStation()
+        }
+    }
+
+    /// 播放失败回调
+    @objc private func playerDidFail() {
+        musicStatus = "播放失败，请切换电台"
+        isMusicPlaying = false
     }
 
     // MARK: - 用户认证

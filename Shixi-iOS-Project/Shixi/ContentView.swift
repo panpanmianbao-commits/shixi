@@ -9,7 +9,8 @@ struct ContentView: View {
     // MARK: 状态变量
     @State private var showThemePicker = true    // 控制主题选择面板的展开/收起
     @State private var showAchievements = false  // 控制成就墙的展开/收起
-    // timeInput 已移至 ViewModel，统一通过 vm.timeInput 访问
+    @State private var showAvatarPicker = false   // 控制头像选择器显示
+    @State private var selectedAvatarItem: PhotosPickerItem? // 头像选择项
 
     // MARK: 主布局
     var body: some View {
@@ -47,6 +48,14 @@ struct ContentView: View {
             AuthSheetView()
                 .environmentObject(vm)
         }
+        .photosPicker(isPresented: $showAvatarPicker, selection: $selectedAvatarItem, matching: .images)
+        .onChange(of: selectedAvatarItem) { newItem in
+            Task {
+                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                    vm.updateAvatar(data)
+                }
+            }
+        }
         .onAppear {
             // 页面加载时读取本地保存的数据
             vm.loadSavedData()
@@ -75,7 +84,9 @@ struct ContentView: View {
                             .foregroundColor(.gray)
                     }
                     Divider()
-                    Button("更换头像") {}
+                    Button("更换头像") {
+                        showAvatarPicker = true
+                    }
                     Button("退出登录", role: .destructive) {
                         vm.logout()
                     }
