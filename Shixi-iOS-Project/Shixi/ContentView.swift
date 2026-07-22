@@ -382,9 +382,12 @@ struct ContentView: View {
                         .fill(Color(hex: "#f5f5f5"))
                         .frame(width: 36, height: 36)
 
-                    if vm.isMusicPlaying {
-                        Image(systemName: "waveform")
-                            .foregroundColor(.white)
+                    if let logo = UIImage(named: vm.currentStation.logoName) {
+                        Image(uiImage: logo)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 36, height: 36)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                     } else {
                         Image(systemName: "music.note")
                             .foregroundColor(Color(hex: "#888888"))

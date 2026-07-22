@@ -136,21 +136,21 @@ extension AppTheme {
 /// 网络电台/音乐流媒体配置
 struct RadioStation: Identifiable {
     let id = UUID()
-    let name: String    // 电台名称
-    let url: String     // 流媒体播放地址（M3U8/MP3）
+    let name: String      // 电台名称
+    let url: String       // 流媒体播放地址（M3U8/MP3）
+    let logoName: String  // 电台封面logo在Assets中的名称
 }
 
 extension RadioStation {
     /// 预置电台列表：经典音乐、古典、民谣、怀旧等
     static let allStations: [RadioStation] = [
-        RadioStation(name: "CNR 经典音乐广播", url: "http://ngcdn004.cnr.cn/live/dszs/index.m3u8"),
-        RadioStation(name: "上海经典947", url: "http://lhttp.qingting.fm/live/267/64k.mp3"),
-        RadioStation(name: "河南古典音乐·天籁", url: "http://stream.hndt.com/live/gudian/playlist.m3u8"),
-        RadioStation(name: "河南网络广播·民谣", url: "http://stream3.hndt.com/now/DTK5qc83/playlist.m3u8"),
-        RadioStation(name: "河南网络广播·天籁古典", url: "http://stream3.hndt.com/now/MdOpB4zP/playlist.m3u8"),
-        RadioStation(name: "Asia FM 亚洲经典台", url: "https://lhttp.qingting.fm/live/5021912/64k.mp3"),
-        RadioStation(name: "CRI 怀旧金曲频道", url: "https://lhttp.qingting.fm/live/5022038/64k.mp3"),
-        RadioStation(name: "清晨音乐台", url: "http://lhttp.qingting.fm/live/4915/64k.mp3")
+        RadioStation(name: "上海经典947", url: "http://lhttp.qingting.fm/live/267/64k.mp3", logoName: "classic947"),
+        RadioStation(name: "河南古典音乐·天籁", url: "http://stream.hndt.com/live/gudian/playlist.m3u8", logoName: "henan_classical"),
+        RadioStation(name: "河南网络广播·民谣", url: "http://stream3.hndt.com/now/DTK5qc83/playlist.m3u8", logoName: "henan_folk"),
+        RadioStation(name: "河南网络广播·天籁古典", url: "http://stream3.hndt.com/now/MdOpB4zP/playlist.m3u8", logoName: "henan_classical2"),
+        RadioStation(name: "Asia FM 亚洲经典台", url: "https://lhttp.qingting.fm/live/5021912/64k.mp3", logoName: "asia_classic"),
+        RadioStation(name: "CRI 怀旧金曲频道", url: "https://lhttp.qingting.fm/live/5022038/64k.mp3", logoName: "cri_nostalgia"),
+        RadioStation(name: "清晨音乐台", url: "http://lhttp.qingting.fm/live/4915/64k.mp3", logoName: "qingchen_music")
     ]
 }
 
