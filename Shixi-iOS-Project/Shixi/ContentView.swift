@@ -17,7 +17,7 @@ struct ContentView: View {
         NavigationStack {
             ZStack {
                 // 全局背景色
-                Color(hex: "#f5f5f5").ignoresSafeArea()
+                vm.currentTheme.bgColor.ignoresSafeArea()
 
                 ScrollView {
                     VStack(spacing: 16) {
@@ -267,13 +267,18 @@ struct ContentView: View {
 
                 // 主题动画帧和状态文案
                 if !vm.showDoneMessage {
-                    HStack(spacing: 6) {
-                        Text(theme.emoji)
+                    HStack(spacing: 10) {
+                        if let icon = UIImage(named: theme.iconName) {
+                            Image(uiImage: icon)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 48, height: 48)
+                        }
                         Text(vm.currentFrame)
                             .font(.system(size: 15, weight: .medium))
                             .foregroundColor(theme.accentColor)
                     }
-                    .frame(minHeight: 24)
+                    .frame(minHeight: 48)
 
                     Text(vm.currentStatus)
                         .font(.system(size: 14, design: .serif))
@@ -378,18 +383,19 @@ struct ContentView: View {
             // 当前电台信息和播放按钮
             HStack(spacing: 10) {
                 ZStack {
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: 12)
                         .fill(Color(hex: "#f5f5f5"))
-                        .frame(width: 36, height: 36)
+                        .frame(width: 48, height: 48)
 
                     if let logo = UIImage(named: vm.currentStation.logoName) {
                         Image(uiImage: logo)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 36, height: 36)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .frame(width: 48, height: 48)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     } else {
                         Image(systemName: "music.note")
+                            .font(.system(size: 20))
                             .foregroundColor(Color(hex: "#888888"))
                     }
                 }
@@ -542,8 +548,13 @@ struct ContentView: View {
                                         vm.currentTheme = theme
                                     }
                                 } label: {
-                                    HStack(spacing: 8) {
-                                        Text(theme.emoji)
+                                    HStack(spacing: 10) {
+                                        if let icon = UIImage(named: theme.iconName) {
+                                            Image(uiImage: icon)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 32, height: 32)
+                                        }
                                         Text(theme.name)
                                             .font(.system(size: 14))
                                         Spacer()

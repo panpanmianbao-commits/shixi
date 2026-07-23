@@ -104,7 +104,7 @@ class ShixiViewModel: ObservableObject {
         switch pomoPhase {
         case .work:
             return AppTheme(
-                id: "pomowork", name: "番茄钟·专注", group: .daily, emoji: "🍅",
+                id: "pomowork", name: "番茄钟·专注", group: .daily, iconName: "pomowork",
                 primaryColor: Color(hex: "#7c2d12"), bgColor: Color(hex: "#fff8f0"),
                 borderColor: Color(hex: "#ffd8a8"), accentColor: Color(hex: "#d35400"),
                 progressColor: Color(hex: "#ff8c00"),
@@ -114,7 +114,7 @@ class ShixiViewModel: ObservableObject {
             )
         case .rest:
             return AppTheme(
-                id: "pomobreak", name: "番茄钟·休息", group: .daily, emoji: "☕",
+                id: "pomobreak", name: "番茄钟·休息", group: .daily, iconName: "pomobreak",
                 primaryColor: Color(hex: "#14532d"), bgColor: Color(hex: "#f0fdf4"),
                 borderColor: Color(hex: "#bbf7d0"), accentColor: Color(hex: "#15803d"),
                 progressColor: .green,

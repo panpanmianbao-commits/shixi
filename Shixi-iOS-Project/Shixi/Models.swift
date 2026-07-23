@@ -27,7 +27,7 @@ struct AppTheme: Identifiable, Hashable {
     let id: String              // 唯一标识
     let name: String            // 主题名称
     let group: ThemeGroup       // 所属分组
-    let emoji: String           // 主题表情符号
+    let iconName: String        // 主题手绘图标在Assets中的名称
     let primaryColor: Color     // 主色调
     let bgColor: Color          // 背景色
     let borderColor: Color      // 边框色
@@ -42,7 +42,7 @@ struct AppTheme: Identifiable, Hashable {
 extension AppTheme {
     /// 小蜜蜂采蜜主题 - 日常类
     static let bee = AppTheme(
-        id: "bee", name: "小蜜蜂采蜜", group: .daily, emoji: "🐝",
+        id: "bee", name: "小蜜蜂采蜜", group: .daily, iconName: "bee",
         primaryColor: Color(hex: "#5c4033"), bgColor: Color(hex: "#fffbeb"),
         borderColor: Color(hex: "#f5deb3"), accentColor: Color(hex: "#b8860b"),
         progressColor: .green,
@@ -53,7 +53,7 @@ extension AppTheme {
 
     /// 火箭发射主题 - 日常类
     static let rocket = AppTheme(
-        id: "rocket", name: "火箭发射", group: .daily, emoji: "🚀",
+        id: "rocket", name: "火箭发射", group: .daily, iconName: "rocket",
         primaryColor: Color(hex: "#1e3a5f"), bgColor: Color(hex: "#f0f7ff"),
         borderColor: Color(hex: "#bfdbfe"), accentColor: Color(hex: "#2563eb"),
         progressColor: Color(hex: "#1890ff"),
@@ -64,7 +64,7 @@ extension AppTheme {
 
     /// 小猫钓鱼主题 - 日常类
     static let fish = AppTheme(
-        id: "fish", name: "小猫钓鱼", group: .daily, emoji: "🎣",
+        id: "fish", name: "小猫钓鱼", group: .daily, iconName: "fish",
         primaryColor: Color(hex: "#0c4a6e"), bgColor: Color(hex: "#f0f9ff"),
         borderColor: Color(hex: "#bae6fd"), accentColor: Color(hex: "#0284c7"),
         progressColor: Color(hex: "#1890ff"),
@@ -75,7 +75,7 @@ extension AppTheme {
 
     /// 大厨烹饪主题 - 日常类
     static let cook = AppTheme(
-        id: "cook", name: "大厨烹饪", group: .daily, emoji: "👨‍🍳",
+        id: "cook", name: "大厨烹饪", group: .daily, iconName: "cook",
         primaryColor: Color(hex: "#5c1a1a"), bgColor: Color(hex: "#fff5f5"),
         borderColor: Color(hex: "#fecaca"), accentColor: Color(hex: "#c0392b"),
         progressColor: Color(hex: "#ff8c8c"),
@@ -86,7 +86,7 @@ extension AppTheme {
 
     /// 樱花进度条主题 - 季节感类
     static let sakura = AppTheme(
-        id: "sakura", name: "樱花进度条", group: .season, emoji: "🌸",
+        id: "sakura", name: "樱花进度条", group: .season, iconName: "sakura",
         primaryColor: Color(hex: "#7b1e4a"), bgColor: Color(hex: "#fff0f3"),
         borderColor: Color(hex: "#ffd1dc"), accentColor: Color(hex: "#db2777"),
         progressColor: Color(hex: "#ffb6c1"),
@@ -97,7 +97,7 @@ extension AppTheme {
 
     /// 梅雨之窗主题 - 季节感类
     static let rainy = AppTheme(
-        id: "rainy", name: "梅雨の窓", group: .season, emoji: "🌧️",
+        id: "rainy", name: "梅雨の窓", group: .season, iconName: "rainy",
         primaryColor: Color(hex: "#2c3e50"), bgColor: Color(hex: "#f0f4f8"),
         borderColor: Color(hex: "#c5d3e0"), accentColor: Color(hex: "#4a6fa5"),
         progressColor: Color(hex: "#b0c4de"),
@@ -108,7 +108,7 @@ extension AppTheme {
 
     /// 红叶之信主题 - 季节感类
     static let autumn = AppTheme(
-        id: "autumn", name: "红叶の便り", group: .season, emoji: "🍁",
+        id: "autumn", name: "红叶の便り", group: .season, iconName: "autumn",
         primaryColor: Color(hex: "#7c2d12"), bgColor: Color(hex: "#fff8f0"),
         borderColor: Color(hex: "#ffd8a8"), accentColor: Color(hex: "#d35400"),
         progressColor: Color(hex: "#ff8c00"),
@@ -119,7 +119,7 @@ extension AppTheme {
 
     /// 雪落之声主题 - 季节感类
     static let winter = AppTheme(
-        id: "winter", name: "雪の積もる音", group: .season, emoji: "❄️",
+        id: "winter", name: "雪の積もる音", group: .season, iconName: "winter",
         primaryColor: Color(hex: "#334155"), bgColor: Color(hex: "#f8fafc"),
         borderColor: Color(hex: "#d1d5db"), accentColor: Color(hex: "#475569"),
         progressColor: Color(hex: "#b0c4de"),
