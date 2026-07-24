@@ -265,29 +265,54 @@ struct ContentView: View {
                     }
                 }
 
-                // 主题动画帧和状态文案
-                if !vm.showDoneMessage {
-                    HStack(spacing: 10) {
-                        if let icon = UIImage(named: theme.iconName) {
-                            Image(uiImage: icon)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 48, height: 48)
-                        }
-                        Text(vm.currentFrame)
-                            .font(.system(size: 15, weight: .medium))
-                            .foregroundColor(theme.accentColor)
+                // 主题动画区域 —— 固定高度，防止进度条跳动
+                ZStack {
+                    // 运行时动画场景
+                    if vm.isRunning && !vm.showDoneMessage {
+                        ThemeAnimationView(themeID: vm.currentTheme.id)
+                            .frame(height: 120)
                     }
-                    .frame(minHeight: 48)
 
-                    Text(vm.currentStatus)
-                        .font(.system(size: 14, design: .serif))
-                        .italic()
-                        .foregroundColor(theme.primaryColor.opacity(0.6))
-                        .frame(minHeight: 20)
+                    // 空闲状态
+                    if !vm.isRunning && !vm.showDoneMessage {
+                        VStack(spacing: 6) {
+                            if let icon = UIImage(named: theme.iconName) {
+                                Image(uiImage: icon)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 48, height: 48)
+                            }
+                            Text(vm.currentFrame.isEmpty ? "准备开始..." : vm.currentFrame)
+                                .font(.system(size: 15, weight: .medium))
+                                .foregroundColor(theme.accentColor)
+
+                            Text(vm.currentStatus)
+                                .font(.system(size: 14, design: .serif))
+                                .italic()
+                                .foregroundColor(theme.primaryColor.opacity(0.6))
+                        }
+                    }
+
+                    // 完成庆祝效果
+                    if vm.showDoneMessage {
+                        CelebrationEffect()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                        VStack {
+                            Spacer()
+                            Text(vm.doneMessage)
+                                .font(.system(size: 15, weight: .medium, design: .serif))
+                                .italic()
+                                .foregroundColor(theme.primaryColor)
+                                .multilineTextAlignment(.center)
+                                .padding(.top, 8)
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                        }
+                    }
                 }
+                .frame(height: 140)   // 固定高度，避免内容高度变化引起上下跳动
 
-                // 进度条
+                // 进度条（位置不再受动画区高度影响）
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 4)
@@ -306,24 +331,15 @@ struct ContentView: View {
                     .font(.system(size: 12, design: .serif))
                     .foregroundColor(Color(hex: "#bbbbbb"))
                     .frame(maxWidth: .infinity, alignment: .trailing)
-
-                // 完成时的庆祝效果
-                if vm.showDoneMessage {
-                    CelebrationEffect()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-                    Text(vm.doneMessage)
-                        .font(.system(size: 15, weight: .medium, design: .serif))
-                        .italic()
-                        .foregroundColor(theme.primaryColor)
-                        .multilineTextAlignment(.center)
-                        .padding(.top, 8)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                }
             }
             .padding(20)
         }
         .frame(minHeight: 180)
+        .scaleEffect(vm.isRunning ? 1.0 : 0.86)          // 空闲时更紧凑
+        .animation(
+            .spring(response: 0.45, dampingFraction: 0.65),
+            value: vm.isRunning
+        )                                                 // 非线性弹性动画
     }
 
     // MARK: 控制按钮
